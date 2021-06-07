@@ -55,7 +55,7 @@ export const UsersContainer = styled.div`
         .input {
           width: 100%;
 
-          &:first-child {
+          &:not(:last-child) {
             margin-right: 0;
             margin-bottom: 8px;
           }
