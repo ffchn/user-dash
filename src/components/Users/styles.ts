@@ -10,11 +10,33 @@ export const UsersContainer = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 16px;
+    margin-bottom: 32px;
 
-    input {
-      &:first-child {
-        margin-right: 16px;
+    h1 {
+      margin: 0;
+    }
+
+    .inputs {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      .input {
+        display: flex;
+        flex-direction: column;
+
+        label {
+          margin-bottom: 4px;
+          font-weight: bold;
+        }
+        input,
+        select {
+          height: 32px;
+        }
+
+        &:first-child {
+          margin-right: 16px;
+        }
       }
     }
   }
@@ -23,6 +45,22 @@ export const UsersContainer = styled.div`
     .header {
       flex-direction: column;
       align-items: flex-start;
+
+      .inputs {
+        margin-top: 8px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+
+        .input {
+          width: 100%;
+
+          &:first-child {
+            margin-right: 0;
+            margin-bottom: 8px;
+          }
+        }
+      }
     }
   }
 `
@@ -31,10 +69,6 @@ export const UserListWrapper = styled.ul``
 
 export const UserItemWrapper = styled.li<IUserItem>`
   ${({ userImage }) => css`
-    &:nth-child(odd) {
-      background-color: #f0f0f0;
-    }
-
     display: grid;
     width: 100%;
     align-items: center;
@@ -44,6 +78,10 @@ export const UserItemWrapper = styled.li<IUserItem>`
     cursor: pointer;
     transition: 0.5s ease;
     border-bottom: 1px solid lightgray;
+
+    &:nth-child(odd) {
+      background-color: #f0f0f0;
+    }
 
     .userImage {
       background-size: cover;

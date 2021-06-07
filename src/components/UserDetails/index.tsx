@@ -107,10 +107,7 @@ const UserDetails: React.FC = () => {
                     {address && (
                       <>
                         <p>
-                          {suite} {street},
-                        </p>
-                        <p>
-                          {city} - {zipcode}
+                          {suite} {street}, {city} - {zipcode}
                         </p>
                       </>
                     )}

@@ -5,6 +5,7 @@ import React, {
   useState,
 } from 'react'
 import { useHistory } from 'react-router'
+import useDebounce from '../../hooks/useDebounce'
 import IUser from '../../interfaces/user'
 import UserService from '../../services/UserService'
 import { Container, Card } from '../../styles/globals'
@@ -15,11 +16,13 @@ const Users: React.FC = () => {
   const [isFetchingUsers, setFetchingUsers] = useState<boolean>(false)
   const [userList, setUserList] = useState<IUser[]>([])
   const [sortBy, setSortBy] = useState<'name' | 'username' | 'email'>('name')
+
   const [filterBy, setFilterBy] = useState<string>('')
+  const debouncedFilterBy = useDebounce(filterBy)
 
   const fetchUsers = async () => {
     setFetchingUsers(true)
-    await UserService.getUsers({ sortBy, filterBy })
+    await UserService.getUsers({ sortBy, filterBy: debouncedFilterBy })
       .then((response) => {
         setUserList(response)
       })
@@ -32,7 +35,7 @@ const Users: React.FC = () => {
 
   useEffect(() => {
     fetchUsers()
-  }, [sortBy, filterBy])
+  }, [sortBy, debouncedFilterBy])
 
   const UserItem = (props: { userData: IUser }) => {
     const history = useHistory()
@@ -81,17 +84,26 @@ const Users: React.FC = () => {
           <div className='header'>
             <h1>Users</h1>
             <div className='inputs'>
-              <label>
-                Filter by: <input type='text' onChange={handleChangeFilterBy} />
-              </label>
-              <label>
-                Sort by:{' '}
-                <select name='orderBy' onChange={handleChangeSortBy}>
+              <div className='input'>
+                <label htmlFor='filterByInput'>Filter by:</label>
+                <input
+                  id='filterByInput'
+                  type='text'
+                  onChange={handleChangeFilterBy}
+                />
+              </div>
+              <div className='input'>
+                <label htmlFor='sortBySelector'>Sort by: </label>
+                <select
+                  id='sortBySelector'
+                  name='orderBy'
+                  onChange={handleChangeSortBy}
+                >
                   <option value='name'>Name</option>
                   <option value='username'>Username</option>
                   <option value='email'>E-mail</option>
                 </select>
-              </label>
+              </div>
             </div>
           </div>
           {!isFetchingUsers ? (
