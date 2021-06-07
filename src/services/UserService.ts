@@ -4,7 +4,7 @@ import api from './api'
 
 interface IGetUsersRequest {
   sortBy: 'name' | 'username' | 'email'
-  filterBy?: string
+  filterBy: string
 }
 
 class UserService {
@@ -19,23 +19,16 @@ class UserService {
         a[sortBy].localeCompare(b[sortBy])
       )
 
-      // if (sortBy === 'name') {
-      //   userList = userList.sort((a: IUser, b: IUser) =>
-      //     a['name'].localeCompare(b['name'])
-      //   )
-      // }
-      // if (sortBy === 'username') {
-      //   userList = userList.sort((a: IUser, b: IUser) =>
-      //     a.username.localeCompare(b.username)
-      //   )
-      // }
-      // if (sortBy === 'email') {
-      //   userList = userList.sort((a: IUser, b: IUser) =>
-      //     a.email.localeCompare(b.email)
-      //   )
-      // }
+      if (filterBy === '') {
+        return userList
+      }
 
-      return userList
+      return userList.filter(
+        (user: IUser) =>
+          user.name.toLowerCase().includes(filterBy) ||
+          user.username.toLowerCase().includes(filterBy) ||
+          user.email.toLowerCase().includes(filterBy)
+      )
     } catch (err) {
       return err.response
     }

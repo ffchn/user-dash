@@ -15,7 +15,7 @@ const Users: React.FC = () => {
   const [isFetchingUsers, setFetchingUsers] = useState<boolean>(false)
   const [userList, setUserList] = useState<IUser[]>([])
   const [sortBy, setSortBy] = useState<'name' | 'username' | 'email'>('name')
-  const [filterBy, setFilterBy] = useState<string>()
+  const [filterBy, setFilterBy] = useState<string>('')
 
   const fetchUsers = async () => {
     setFetchingUsers(true)
@@ -70,6 +70,9 @@ const Users: React.FC = () => {
   const handleChangeSortBy = (e: any) => {
     setSortBy(e.target.value)
   }
+  const handleChangeFilterBy = (e: ChangeEvent<HTMLInputElement>) => {
+    setFilterBy(e.target.value)
+  }
 
   return (
     <Container>
@@ -78,7 +81,9 @@ const Users: React.FC = () => {
           <div className='header'>
             <h1>Users</h1>
             <div className='inputs'>
-              <input type='text' />
+              <label>
+                Filter by: <input type='text' onChange={handleChangeFilterBy} />
+              </label>
               <label>
                 Sort by:{' '}
                 <select name='orderBy' onChange={handleChangeSortBy}>
