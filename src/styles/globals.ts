@@ -9,11 +9,11 @@ const GlobalStyle = createGlobalStyle`
         font-family: 'Roboto', sans-serif;
         font-size: 14px;
         box-sizing: border-box;
+        color: #3a3a3a;
     }
 
     html, body{
         height: 100vh;
-        overflow: hidden;
     }
 
     body{
@@ -28,10 +28,29 @@ const GlobalStyle = createGlobalStyle`
         list-style: none;
     }
 
+    h1 {
+      margin-top: 0;
+      font-size: 2rem;
+      margin-bottom: 32px;
+    }
+
+    h2, h3, h4, h5, h6,p{
+        margin-top: 0;
+        margin-bottom: .5rem;
+    }
+
     a{
+        color: #07a3ee;
         cursor: pointer;
         text-decoration: none;
+        transition: .5s;
+
+        &:hover{
+          color: #5fcbfb;
+        }
+      
     }
+    
 
 `
 
@@ -47,7 +66,7 @@ export const Container = styled.div`
 `
 
 export const Card = styled.div`
-  padding: 16px 32px;
+  padding: 32px 5%;
   border-radius: 8px;
   background-color: white;
 `

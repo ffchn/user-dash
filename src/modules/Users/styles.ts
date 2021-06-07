@@ -57,13 +57,6 @@ export const UserItemWrapper = styled.li<IUserItem>`
         }
       }
       
-      a{
-        transition: .5s;
-
-        &:hover{
-          color: indigo;
-        }
-      }
     }
 
     &:hover{
