@@ -4,30 +4,36 @@ import api from './api'
 
 interface IGetUsersRequest {
   sortBy: 'name' | 'username' | 'email'
+  orderBy: 'ASC' | 'DESC'
   filterBy: string
 }
 
 class UserService {
   public async getUsers({
     sortBy,
+    orderBy,
     filterBy,
   }: IGetUsersRequest): Promise<IUser[]> {
     try {
       let userList = await api.get('/users').then((response) => response.data)
 
       userList = userList.sort((a: IUser, b: IUser) =>
-        a[sortBy].localeCompare(b[sortBy])
+        orderBy === 'DESC'
+          ? b[sortBy].localeCompare(a[sortBy])
+          : a[sortBy].localeCompare(b[sortBy])
       )
 
       if (filterBy === '') {
         return userList
       }
 
+      const lowerCaseFilter = filterBy.toLowerCase()
+
       return userList.filter(
         (user: IUser) =>
-          user.name.toLowerCase().includes(filterBy) ||
-          user.username.toLowerCase().includes(filterBy) ||
-          user.email.toLowerCase().includes(filterBy)
+          user.name.toLowerCase().includes(lowerCaseFilter) ||
+          user.username.toLowerCase().includes(lowerCaseFilter) ||
+          user.email.toLowerCase().includes(lowerCaseFilter)
       )
     } catch (err) {
       return err.response

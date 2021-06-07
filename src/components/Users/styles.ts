@@ -34,7 +34,7 @@ export const UsersContainer = styled.div`
           height: 32px;
         }
 
-        &:first-child {
+        &:not(:last-child) {
           margin-right: 16px;
         }
       }

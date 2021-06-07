@@ -1,9 +1,4 @@
-import React, {
-  ChangeEvent,
-  ChangeEventHandler,
-  useEffect,
-  useState,
-} from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
 import useDebounce from '../../hooks/useDebounce'
 import IUser from '../../interfaces/user'
@@ -16,13 +11,14 @@ const Users: React.FC = () => {
   const [isFetchingUsers, setFetchingUsers] = useState<boolean>(false)
   const [userList, setUserList] = useState<IUser[]>([])
   const [sortBy, setSortBy] = useState<'name' | 'username' | 'email'>('name')
+  const [orderBy, setOrderBy] = useState<'ASC' | 'DESC'>('ASC')
 
   const [filterBy, setFilterBy] = useState<string>('')
   const debouncedFilterBy = useDebounce(filterBy)
 
   const fetchUsers = async () => {
     setFetchingUsers(true)
-    await UserService.getUsers({ sortBy, filterBy: debouncedFilterBy })
+    await UserService.getUsers({ sortBy, filterBy: debouncedFilterBy, orderBy })
       .then((response) => {
         setUserList(response)
       })
@@ -35,7 +31,7 @@ const Users: React.FC = () => {
 
   useEffect(() => {
     fetchUsers()
-  }, [sortBy, debouncedFilterBy])
+  }, [sortBy, debouncedFilterBy, orderBy])
 
   const UserItem = (props: { userData: IUser }) => {
     const history = useHistory()
@@ -73,6 +69,9 @@ const Users: React.FC = () => {
   const handleChangeSortBy = (e: any) => {
     setSortBy(e.target.value)
   }
+  const handleChangeSortByOrder = (e: any) => {
+    setOrderBy(e.target.value)
+  }
   const handleChangeFilterBy = (e: ChangeEvent<HTMLInputElement>) => {
     setFilterBy(e.target.value)
   }
@@ -94,14 +93,17 @@ const Users: React.FC = () => {
               </div>
               <div className='input'>
                 <label htmlFor='sortBySelector'>Sort by: </label>
-                <select
-                  id='sortBySelector'
-                  name='orderBy'
-                  onChange={handleChangeSortBy}
-                >
+                <select id='sortBySelector' onChange={handleChangeSortBy}>
                   <option value='name'>Name</option>
                   <option value='username'>Username</option>
                   <option value='email'>E-mail</option>
+                </select>
+              </div>
+              <div className='input'>
+                <label htmlFor='sortByOrder'>Order: </label>
+                <select id='sortByOrder' onChange={handleChangeSortByOrder}>
+                  <option value='ASC'>ASC</option>
+                  <option value='DESC'>DESC</option>
                 </select>
               </div>
             </div>
@@ -113,7 +115,9 @@ const Users: React.FC = () => {
                   <UserItem userData={user} key={`user-${index}`} />
                 ))
               ) : (
-                <>No users found</>
+                <span>
+                  No users found{filterBy !== '' ? ` with '${filterBy}'` : ''}
+                </span>
               )}
             </UserListWrapper>
           ) : (
