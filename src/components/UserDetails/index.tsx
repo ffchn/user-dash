@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import IUserPost from '../../interfaces/post'
 import IUser from '../../interfaces/user'
-import PostService from '../../services/PostService'
 import UserService from '../../services/UserService'
 import { Card, Container } from '../../styles/globals'
 import { UserDetailsContainer, UserInfoGrid } from './styles'
@@ -38,15 +37,11 @@ const UserDetails: React.FC = () => {
     }
   }, [userId])
 
-  useEffect(() => {
-    console.log(userData)
-  }, [userData])
-
   const UserPosts = () => {
     const [userPostData, setUserPostData] = useState<IUserPost[]>([])
 
     const fetchUserPosts = async (userId: string) => {
-      await PostService.getPostsByUser(userId)
+      await UserService.getUserPosts(userId)
         .then((response) => {
           setUserPostData(response)
         })
@@ -64,7 +59,7 @@ const UserDetails: React.FC = () => {
     return (
       <UserInfoGrid>
         {userPostData.map((post: IUserPost) => (
-          <div className='infoItem post'>
+          <div className='infoItem post' key={`post-${post.id}`}>
             <h2>{post.title}</h2>
             <p>{post.body}</p>
           </div>

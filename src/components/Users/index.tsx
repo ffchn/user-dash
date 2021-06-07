@@ -1,4 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, {
+  ChangeEvent,
+  ChangeEventHandler,
+  useEffect,
+  useState,
+} from 'react'
 import { useHistory } from 'react-router'
 import IUser from '../../interfaces/user'
 import UserService from '../../services/UserService'
@@ -9,10 +14,12 @@ import { UsersContainer, UserListWrapper, UserItemWrapper } from './styles'
 const Users: React.FC = () => {
   const [isFetchingUsers, setFetchingUsers] = useState<boolean>(false)
   const [userList, setUserList] = useState<IUser[]>([])
+  const [sortBy, setSortBy] = useState<'name' | 'username' | 'email'>('name')
+  const [filterBy, setFilterBy] = useState<string>()
 
   const fetchUsers = async () => {
     setFetchingUsers(true)
-    await UserService.getUsers()
+    await UserService.getUsers({ sortBy, filterBy })
       .then((response) => {
         setUserList(response)
       })
@@ -25,7 +32,7 @@ const Users: React.FC = () => {
 
   useEffect(() => {
     fetchUsers()
-  }, [])
+  }, [sortBy, filterBy])
 
   const UserItem = (props: { userData: IUser }) => {
     const history = useHistory()
@@ -60,6 +67,10 @@ const Users: React.FC = () => {
     )
   }
 
+  const handleChangeSortBy = (e: any) => {
+    setSortBy(e.target.value)
+  }
+
   return (
     <Container>
       <Card>
@@ -68,7 +79,14 @@ const Users: React.FC = () => {
             <h1>Users</h1>
             <div className='inputs'>
               <input type='text' />
-              <input type='text' />
+              <label>
+                Sort by:{' '}
+                <select name='orderBy' onChange={handleChangeSortBy}>
+                  <option value='name'>Name</option>
+                  <option value='username'>Username</option>
+                  <option value='email'>E-mail</option>
+                </select>
+              </label>
             </div>
           </div>
           {!isFetchingUsers ? (

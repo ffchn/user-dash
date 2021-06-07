@@ -1,7 +1,7 @@
 import { Switch, Route } from 'react-router-dom'
 
-import Users from '../modules/Users'
-import UserDetails from '../modules/UserDetails'
+import Users from '../components/Users'
+import UserDetails from '../components/UserDetails'
 
 const Routes = () => {
   return (
