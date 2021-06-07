@@ -50,6 +50,13 @@ const GlobalStyle = createGlobalStyle`
         }
       
     }
+
+    @media screen and (max-width: 480px) {
+      body{
+        padding-top: 16px;
+      }
+    
+    }
     
 
 `

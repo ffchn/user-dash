@@ -10,11 +10,19 @@ export const UsersContainer = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 16px;
 
     input {
       &:first-child {
         margin-right: 16px;
       }
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .header {
+      flex-direction: column;
+      align-items: flex-start;
     }
   }
 `
@@ -23,6 +31,10 @@ export const UserListWrapper = styled.ul``
 
 export const UserItemWrapper = styled.li<IUserItem>`
   ${({ userImage }) => css`
+    &:nth-child(odd) {
+      background-color: #f0f0f0;
+    }
+
     display: grid;
     width: 100%;
     align-items: center;
@@ -30,7 +42,7 @@ export const UserItemWrapper = styled.li<IUserItem>`
     grid-template-columns: 56px 1fr;
     grid-column-gap: 24px;
     cursor: pointer;
-    transition: .5s ease;
+    transition: 0.5s ease;
     border-bottom: 1px solid lightgray;
 
     .userImage {
@@ -56,11 +68,22 @@ export const UserItemWrapper = styled.li<IUserItem>`
           font-size: 1.2rem;
         }
       }
-      
     }
 
-    &:hover{
-      background-color:#ededed;
+    &:hover {
+      background-color: #e1e1e1;
+    }
+
+    @media screen and (max-width: 480px) {
+      display: flex;
+
+      .userData {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .userImage {
+        display: none;
+      }
     }
   `}
 `

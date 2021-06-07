@@ -64,7 +64,7 @@ const UserDetails: React.FC = () => {
     return (
       <UserInfoGrid>
         {userPostData.map((post: IUserPost) => (
-          <div className='infoItem'>
+          <div className='infoItem post'>
             <h2>{post.title}</h2>
             <p>{post.body}</p>
           </div>
@@ -88,6 +88,9 @@ const UserDetails: React.FC = () => {
                   <div className='infoItem'>
                     <h2>Contact Info</h2>
                     <p>Username: {username || ''}</p>
+                    <p>
+                      Email: {email && <a href={`mailto:${email}`}>{email}</a>}
+                    </p>
                     <p>
                       Phone: {phone && <a href={`tel:${phone}`}>{phone}</a>}
                     </p>

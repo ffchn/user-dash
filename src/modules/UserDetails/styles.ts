@@ -26,4 +26,20 @@ export const UserInfoGrid = styled.div`
       margin-bottom: 16px;
     }
   }
+
+  @media screen and (max-width: 480px) {
+    grid-template-columns: 1fr;
+    grid-row-gap: 16px;
+    .infoItem{
+      padding: 0;
+
+      border: none;
+      min-height: auto;
+
+      &.post{
+        border-bottom: 1px solid darkgray;
+        padding-bottom: 16px;
+      }
+    }
+  }
 `
